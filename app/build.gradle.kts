@@ -19,6 +19,8 @@ android {
         // THÊM ĐOẠN NÀY (thay cho dòng trống cũ)
         ndk {
             abiFilters += listOf("x86_64")
+            // nếu chạy trên cpu arm thì thay dòng này
+            // abiFilters += listOf("x86_64", "arm64-v8a")
         }
     }
 
