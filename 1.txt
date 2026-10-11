@@ -1,1 +1,45 @@
-asdasd
+// build project
+cd C:\Users\huy\AndroidStudioProjects\AdbProxy
+.\gradlew.bat assembleDebug
+
+$m = "127.0.0.1:16448"
+adb connect $m
+
+// stop app
+adb -s $m shell am force-stop com.example.adbproxy
+
+// ghi đè và cài app
+adb -s $m install -r app\build\outputs\apk\debug\app-debug.apk
+
+// bật proxy socks5
+adb -s $m shell "am start -n com.example.adbproxy/.MainActivity --es type socks5 --es proxy '31.59.20.176:6754@gxuxruss:6p28orm6po7i'"
+
+// bật proxy http
+adb -s $m shell "am start -n com.example.adbproxy/.MainActivity --es type http --es proxy '31.59.20.176:6754@gxuxruss:6p28orm6po7i'"
+
+// khi đổi proxy từ socks5 sang http thì tắt trước rồi mới chạy lệnh bật proxy
+adb -s $m shell am force-stop com.example.adbproxy
+adb -s $m shell "am start -n com.example.adbproxy/.MainActivity --es type http --es proxy '31.59.20.176:6754@gxuxruss:6p28orm6po7i'"
+
+// kiểm tra
+ipv4.webshare.io
+
+// xem log
+adb -s $m logcat -d -s AdbProxy
+
+
+
+
+
+
+
+
+
+cd C:\Users\huy\AndroidStudioProjects\AdbProxy
+.\gradlew.bat assembleDebug
+
+$m = "127.0.0.1:16448"
+adb connect $m
+adb -s $m shell am force-stop com.example.adbproxy
+adb -s $m install -r app\build\outputs\apk\debug\app-debug.apk
+adb -s $m shell "am start -n com.example.adbproxy/.MainActivity --es type socks5 --es proxy '31.59.20.176:6754@gxuxruss:6p28orm6po7i'"
