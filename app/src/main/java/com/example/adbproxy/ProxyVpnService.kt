@@ -12,6 +12,10 @@ import java.io.File
 import java.net.Socket
 
 class ProxyVpnService : VpnService() {
+    companion object {
+        @Volatile var running = false
+    }
+
     private val tag = "AdbProxy"
     private var tun: ParcelFileDescriptor? = null
     private var relay: HttpToSocks? = null
@@ -120,10 +124,12 @@ class ProxyVpnService : VpnService() {
         if (type != "http") bindProcessToRealNetwork()
 
         val ok = TProxyService.TProxyStartService(cfg.absolutePath, tun!!.fd)
+        running = ok
         Log.d(tag, "service: TProxyStartService returned $ok, running=${TProxyService.TProxyIsRunning()}")
     }
 
     private fun stopVpn() {
+        running = false
         try {
             getSystemService(ConnectivityManager::class.java).bindProcessToNetwork(null)
         } catch (_: Exception) {}
